@@ -1,7 +1,5 @@
-const SafeMath = artifacts.require("SafeMath");
-const MetaCoin = artifacts.require("MetaCoin");
+const OwnerDemo = artifacts.require("OwnerDemo");
 
 module.exports = function(deployer) {
-  deployer.deploy(SafeMath);
-  deployer.deploy(MetaCoin);
+  deployer.deploy(OwnerDemo);
 };

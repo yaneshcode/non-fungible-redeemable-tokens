@@ -17,5 +17,8 @@
     "truffle": "^5.0.2",
     "shx": "^0.3.2",
     "web3-provider-engine": "^14.1.0"
+  },
+  "devDependencies": {
+    "openzeppelin-test-helpers": "^0.1.2"
   }
 }
