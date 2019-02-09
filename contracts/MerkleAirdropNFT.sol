@@ -1,24 +1,43 @@
 pragma solidity ^0.5.0;
 
-import 'openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol';
-contract NFT is ERC721Full {
-  constructor() ERC721Full("Collectible", "COL") public {}
+contract SLT {
 
-  struct Colour {
-    uint8 red;
+  string public tokenName = "Software Licence Token";
+  string public tokenSymbol = "SLT";
+
+  address public owner;
+
+  struct Token {
+    address mintedBy;
+    uint mintedAt;
   }
 
-  Colour[] colours;
+  Token[] tokens;
 
-  function mint() public {
-    Colour memory _colour = Colour(uint8(now));
-    uint _id = colours.push(_colour) - 1;
-    _mint(msg.sender, _id);
+  mapping (uint => address) public tokenIndexToOwner;
+  mapping (address => uint) ownershipTokenCount;
+
+  constructor() public {
+    owner = msg.sender;
   }
 
-  function getColourFromId(uint id) public view returns(uint8) {
-    return (colours[id].red);
+
+
+  function mint() public returns (uint tokenId){
+    Token memory token = Token({
+        mintedBy: msg.sender,
+        mintedAt: uint(now)
+      });
+
+      // mintevent
+    tokenId = tokens.push(token) - 1;
+
+    ownershipTokenCount[msg.sender]++;
+    tokenIndexToOwner[tokenId] = msg.sender;
+
+    // event
   }
+
 }
 
 contract MerkleAirdropNFT {
