@@ -1,5 +1,17 @@
 pragma solidity ^0.5.0;
 
+// Leveraging blockchain design patterns to
+// create a contract that features Non-Fungible
+// Non-Transferable Redeemable Software Licences.
+//
+// Design patterns used:
+// - Non-Fungibility
+// - Owner
+// - Whitelist
+//
+// Contract owner can whitelist users who can
+// then redeem their licence token at their
+// convenience.
 contract SoftwareLicence {
 
   // Events
@@ -12,15 +24,17 @@ contract SoftwareLicence {
   string public name = "Software Licence Token";
   string public symbol = "SLT";
 
+  // Contract owner
   address public owner;
 
+  // Licence token
   struct Token {
     address redeemedBy;
     uint redeemedAt;
   }
-
   Token[] public tokens;
 
+  // mappings of token ownership and whitelist
   mapping (address => uint) public ownerToTokenId;
   mapping (address => bool) public whitelist;
 
@@ -28,6 +42,7 @@ contract SoftwareLicence {
   constructor() public {
     owner = msg.sender;
 
+    // A genesis token minted to occupy zeroth position
     tokens.push(
       Token({
         redeemedBy: address(0x0),
@@ -67,8 +82,9 @@ contract SoftwareLicence {
   }
 
   // user redeem licence
-  function redeem() public onlyWhitelist returns (uint tokenId){
+  function redeem() public onlyWhitelist returns (uint tokenId) {
 
+    // makes sure that user did not already claim a token
     require(ownerToTokenId[msg.sender] == 0);
 
     uint timestamp = now;
@@ -79,7 +95,6 @@ contract SoftwareLicence {
     });
 
     tokenId = tokens.push(token) - 1;
-
     ownerToTokenId[msg.sender] = tokenId;
 
     emit RedeemLicence(msg.sender, tokenId, timestamp);
