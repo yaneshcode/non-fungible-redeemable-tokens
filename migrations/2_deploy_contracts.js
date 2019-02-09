@@ -1,5 +1,5 @@
-const OwnerDemo = artifacts.require("OwnerDemo");
+const MerkleAirdropNFT = artifacts.require("MerkleAirdropNFT");
 
 module.exports = function(deployer) {
-  deployer.deploy(OwnerDemo);
+  deployer.deploy(MerkleAirdropNFT);
 };
