@@ -14,8 +14,9 @@
     "@0x/sol-trace": "^1.0.3",
     "@0x/subproviders": "^2.1.11",
     "istanbul": "^0.4.5",
-    "truffle": "^5.0.2",
+    "openzeppelin-solidity": "^2.1.2",
     "shx": "^0.3.2",
+    "truffle": "^5.0.2",
     "web3-provider-engine": "^14.1.0"
   },
   "devDependencies": {
