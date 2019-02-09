@@ -18,7 +18,7 @@ contract SoftwareLicence {
   event TransferOwner(address from, address to);
   event AddToWhitelist(address recipient);
   event RemoveFromWhitelist(address recipient);
-  event RedeemLicence(address recipient, uint tokenId, uint timestamp);
+  event RedeemLicence(address recipient, uint tokenId);
 
   // Variables
   string public name = "Software Licence Token";
@@ -87,17 +87,15 @@ contract SoftwareLicence {
     // makes sure that user did not already claim a token
     require(ownerToTokenId[msg.sender] == 0);
 
-    uint timestamp = now;
-
     Token memory token = Token({
       redeemedBy: msg.sender,
-      redeemedAt: timestamp
+      redeemedAt: now
     });
 
     tokenId = tokens.push(token) - 1;
     ownerToTokenId[msg.sender] = tokenId;
 
-    emit RedeemLicence(msg.sender, tokenId, timestamp);
+    emit RedeemLicence(msg.sender, tokenId);
 
   }
 
