@@ -1,7 +1,7 @@
-const MerkleAirdropNFT = artifacts.require("MerkleAirdropNFT");
+const SoftwareLicence = artifacts.require("SoftwareLicence");
 const { expectEvent, shouldFail } = require('openzeppelin-test-helpers');
 
-contract("MerkleAirdropNFT", function (accounts) {
+contract("SoftwareLicence", function (accounts) {
 
   // before(async function() {
   //   console.log(accounts[0])
@@ -11,7 +11,7 @@ contract("MerkleAirdropNFT", function (accounts) {
   // });
 
   beforeEach(async function() {
-    this.token = await MerkleAirdropNFT.new({ from: accounts[0] });
+    this.token = await SoftwareLicence.new({ from: accounts[0] });
   });
 
   // after("write coverage/profiler output", async () => {

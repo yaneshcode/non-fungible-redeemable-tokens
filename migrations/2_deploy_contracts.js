@@ -1,5 +1,5 @@
-const MerkleAirdropNFT = artifacts.require("MerkleAirdropNFT");
+const SoftwareLicence = artifacts.require("SoftwareLicence");
 
 module.exports = function(deployer) {
-  deployer.deploy(MerkleAirdropNFT);
+  deployer.deploy(SoftwareLicence);
 };
