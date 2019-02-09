@@ -3,12 +3,8 @@ const { expectEvent, shouldFail } = require('openzeppelin-test-helpers');
 
 contract("SoftwareLicence", function (accounts) {
 
-  before(async function() {
-    console.log(accounts[0])
-    console.log(accounts[1]);
-    console.log(accounts[2]);
-    console.log(accounts.length);
-  });
+  // before(async function() {
+  // });
 
   // new contract before each test to get a clean state
   beforeEach(async function() {
@@ -105,45 +101,196 @@ contract("SoftwareLicence", function (accounts) {
       await this.token.addWhitelist(user1);
 
       assert.equal(
-        (await this.token.whitelist()[user1]),
+        (await this.token.whitelist(user1)),
         true,
         "User has not been added to whitelist."
       );
     });
 
     it('Should fail if non-owner adds to whitelist', async function() {
+      const owner = accounts[0];
+      const user1 = accounts[1];
+      const user2 = accounts[2];
+
+      assert.equal(
+        (await this.token.owner()),
+        owner,
+        "Initial owner is not expected address."
+      );
+
+      await shouldFail.reverting(this.token.addWhitelist(user1, { from: user2 }));
 
     });
 
     it('Should allow owner to remove from whitelist', async function() {
+      const owner = accounts[0];
+      const user1 = accounts[1];
 
+      // Add a user on the whitelist to remove later
+      await this.token.addWhitelist(user1);
+
+      assert.equal(
+        (await this.token.whitelist(user1)),
+        true,
+        "User has not been added to whitelist."
+      );
+
+      await this.token.removeWhitelist(user1);
+
+      assert.equal(
+        (await this.token.whitelist(user1)),
+        false,
+        "User has not been removed from whitelist."
+      );
     });
 
     it('Should fail if non-owner removes from whitelist', async function() {
+      const owner = accounts[0];
+      const user1 = accounts[1];
+      const user2 = accounts[2];
+
+      assert.equal(
+        (await this.token.owner()),
+        owner,
+        "Initial owner is not expected address."
+      );
+
+      // Add a user on the whitelist to remove later
+      await this.token.addWhitelist(user1);
+
+      assert.equal(
+        (await this.token.whitelist(user1)),
+        true,
+        "User has not been added to whitelist."
+      );
+
+      await shouldFail.reverting(this.token.removeWhitelist(user1, { from: user2 }));
 
     });
 
     it('User should be in whitelist after successful addition', async function() {
+      const owner = accounts[0];
+      const user1 = accounts[1];
 
+      await this.token.addWhitelist(user1);
+
+      assert.equal(
+        (await this.token.whitelist(user1)),
+        true,
+        "User has not been added to whitelist after successful addition."
+      );
     });
 
     it('User should not be in whitelist after unsuccesful addition', async function() {
+      const owner = accounts[0];
+      const user1 = accounts[1];
+      const user2 = accounts[2];
+
+      assert.equal(
+        (await this.token.owner()),
+        owner,
+        "Initial owner is not expected address."
+      );
+
+      await shouldFail.reverting(this.token.addWhitelist(user1, { from: user2 }));
+
+      assert.equal(
+        (await this.token.whitelist(user1)),
+        false,
+        "User has been added to whitelist after unsuccesful addition."
+      );
 
     });
 
     it('User should not be in whitelist after successful removal', async function() {
+      const owner = accounts[0];
+      const user1 = accounts[1];
 
+      // Add a user on the whitelist to remove later
+      await this.token.addWhitelist(user1);
+
+      assert.equal(
+        (await this.token.whitelist(user1)),
+        true,
+        "User has not been added to whitelist."
+      );
+
+      await this.token.removeWhitelist(user1);
+
+      assert.equal(
+        (await this.token.whitelist(user1)),
+        false,
+        "User has not been removed from whitelist after successful removal."
+      );
     });
 
     it('User should be in whitelist after unsuccesful removal', async function() {
+      const owner = accounts[0];
+      const user1 = accounts[1];
+      const user2 = accounts[2];
 
+      assert.equal(
+        (await this.token.owner()),
+        owner,
+        "Initial owner is not expected address."
+      );
+
+      // Add a user on the whitelist to remove later
+      await this.token.addWhitelist(user1);
+
+      assert.equal(
+        (await this.token.whitelist(user1)),
+        true,
+        "User has not been added to whitelist."
+      );
+
+      await shouldFail.reverting(this.token.removeWhitelist(user1, { from: user2 }));
+
+      assert.equal(
+        (await this.token.whitelist(user1)),
+        true,
+        "User has been removed from whitelist after unsuccesful removal."
+      );
     });
 
     it('Should fire an event on successful addition to whitelist', async function() {
+      const owner = accounts[0];
+      const user1 = accounts[1];
+
+      let { logs } = await this.token.addWhitelist(user1);
+
+      assert.equal(
+        (await this.token.whitelist(user1)),
+        true,
+        "User has not been added to whitelist."
+      );
+
+      await expectEvent.inLogs(logs, 'AddToWhitelist', { recipient: user1 });
 
     });
 
     it('Should fire an event on successful removal from whitelist', async function() {
+      const owner = accounts[0];
+      const user1 = accounts[1];
+
+      // Add a user on the whitelist to remove later
+      await this.token.addWhitelist(user1);
+
+      assert.equal(
+        (await this.token.whitelist(user1)),
+        true,
+        "User has not been added to whitelist."
+      );
+
+      let { logs } = await this.token.removeWhitelist(user1);
+
+      assert.equal(
+        (await this.token.whitelist(user1)),
+        false,
+        "User has not been removed from whitelist."
+      );
+
+      await expectEvent.inLogs(logs, 'RemoveFromWhitelist', { recipient: user1 });
 
     });
 
