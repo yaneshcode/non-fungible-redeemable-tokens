@@ -39,7 +39,7 @@ contract("SoftwareLicence", function (accounts) {
 
   describe('Owner Patterns', function() {
 
-    it("Should have owner addres be same address who deployed contract", async function() {
+    it("Should have owner address be same address who deployed contract", async function() {
       const owner = accounts[0];
 
       assert.equal(
@@ -99,7 +99,16 @@ contract("SoftwareLicence", function (accounts) {
   describe('Whitelist Patterns', function() {
 
     it('Should allow owner to add to whitelist', async function() {
+      const owner = accounts[0];
+      const user1 = accounts[1];
 
+      await this.token.addWhitelist(user1);
+
+      assert.equal(
+        (await this.token.whitelist()[user1]),
+        true,
+        "User has not been added to whitelist."
+      );
     });
 
     it('Should fail if non-owner adds to whitelist', async function() {
