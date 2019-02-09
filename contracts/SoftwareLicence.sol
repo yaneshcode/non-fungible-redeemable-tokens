@@ -32,7 +32,7 @@ contract SoftwareLicence {
       Token({
         redeemedBy: address(0x0),
         redeemedAt: uint(now)
-    });
+    }));
   }
 
   // owner modifier
@@ -71,7 +71,7 @@ contract SoftwareLicence {
 
     require(ownerToTokenId[msg.sender] == 0);
 
-    uint memory timestamp = now;
+    uint timestamp = now;
 
     Token memory token = Token({
       redeemedBy: msg.sender,
