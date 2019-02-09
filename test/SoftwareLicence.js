@@ -114,11 +114,67 @@ contract("SoftwareLicence", function (accounts) {
 
     });
 
+    it('User should be in whitelist after successful addition', async function() {
+
+    });
+
+    it('User should not be in whitelist after unsuccesful addition', async function() {
+
+    });
+
+    it('User should not be in whitelist after successful removal', async function() {
+
+    });
+
+    it('User should be in whitelist after unsuccesful removal', async function() {
+
+    });
+
     it('Should fire an event on successful addition to whitelist', async function() {
 
     });
 
     it('Should fire an event on successful removal from whitelist', async function() {
+
+    });
+
+  });
+
+  describe('Non Fungible Token Redemption', function() {
+
+    it('Should allow whitelisted user to redeem a token', async function() {
+
+    });
+
+    it('Should fail if non whitelisted user tries to redeem a token', async function() {
+
+    });
+
+    it('Should fail if whitelisted user tries to redeem more than one token', async function() {
+
+    });
+
+    it('Should mint a token for user if successfully redeemed token', async function() {
+
+    });
+
+    it('Should not mint a token for user if unsuccesfully redeemed token', async function() {
+
+    });
+
+    it('Should assign a unique token to a user', async function() {
+
+    });
+
+    it('Should fail if a user\'s address matches someone else\'s token', async function() {
+
+    });
+
+    it('TokenId should increment by one with each redemption', async function() {
+
+    });
+
+    it('Should fire an event on successful token redemption', async function() {
 
     });
 
